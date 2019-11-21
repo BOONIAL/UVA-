@@ -1,0 +1,88 @@
+#include<iostream>
+#include<algorithm>
+#include<string.h>
+#include <sstream>
+
+using namespace std;
+void flip(int a[30],int len);
+int jud(int a[30],int len);
+
+int main()
+{
+
+    string s;
+    while(getline(cin,s))//整行读入
+    {
+        //load array
+        int a[30]={0};
+        int j=0;
+        int len =0;
+        stringstream ss(s);
+        while(ss>>a[j++]) ;
+        len=j-1;
+        /*for (int i=0;i<len;i++)
+            cout<<a[i]<<endl;
+        cout<<jud(a,len)<<endl;*/
+        flip(a,len);
+    }
+}
+
+int jud(int a[30],int len)
+{
+    int flag=1;
+    for(int i=0;i<len-1;i++)
+        if(a[i]>a[i+1])
+        {
+            flag=0;
+            break;
+        }
+    return flag;
+}
+
+void flip(int a[30],int len)
+{
+    //for (int i=0;i<len;i++)
+    //        cout<<a[i]<<endl;
+    //copy
+    int b[30]={0};
+    for(int i=0;i<len;i++)
+        b[i]=a[i];
+    sort(b,b+len);
+    //cout<<jud(a,len)<<endl;
+    //贪心
+    while(!jud(a,len))
+    {
+        //cout<<jud(a,len)<<endl;
+        int j;
+        int temp=0;
+        j=len-1;
+        while(j>=0&&!jud(a,len))
+        {
+            for(int i=0;i<len;i++)
+            {
+                if(a[i]==b[j])
+                {
+                    if(i!=j)
+                    {
+                        if(i!=0)
+                        {
+                            for(int k=0;k<(i+1)/2;k++)
+                            {
+                                swap(a[k],a[i-k]);
+                            }
+                            cout<<len-i<<" ";
+                        }
+                        for(int k=0;k<(j+1)/2;k++)
+                        {
+                            swap(a[k],a[j-k]);
+                        }
+                        cout<<len-j<<" ";
+                    }
+                    j--;
+                    break;
+                }
+            }
+        }
+    }
+    cout<<"0"<<endl;
+}
