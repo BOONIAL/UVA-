@@ -1,0 +1,56 @@
+#include<iostream>
+#include<vector>
+#include<map>
+#include<algorithm>
+
+using namespace std;
+int main()
+{
+    int n;
+    cin>>n;
+    while(n--)
+    {
+        vector<long long>A;
+        vector<long long>B;
+        vector<long long>C;
+        vector<long long>D;
+        vector<long long>AB;
+        //multimap<long long,int>CD;
+        A.clear();
+        B.clear();
+        C.clear();
+        D.clear();
+        AB.clear();
+        //CD.clear();
+        int m;
+        cin>>m;
+        //load the array
+        while(m--)
+        {
+            int t1,t2,t3,t4;
+            cin>>t1>>t2>>t3>>t4;
+            A.push_back(t1);
+            B.push_back(t2);
+            C.push_back(t3);
+            D.push_back(t4);
+        }
+        //combine，中途相遇法
+        int len;
+        long long ans=0;
+        len=A.size();
+        for(int j=0;j<len;j++)
+        {
+            for(int k=0;k<len;k++)
+                AB.push_back(A[j]+B[k]);
+        }
+        sort(AB.begin(),AB.end());
+        for(int j=0;j<len;j++)
+        {
+            for(int k=0;k<len;k++)
+                ans += upper_bound(AB.begin(),AB.end(),-C[j]-D[k]) - lower_bound(AB.begin(),AB.end(),-C[j]-D[k]);//相减求解的数量
+        }
+        cout<<ans<<endl;
+        if(n) cout<<endl;
+    }
+
+}
