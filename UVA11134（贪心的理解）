@@ -1,0 +1,45 @@
+//从1到n一个格一个格的选车放，每步选择的最优区间是：该区间以前没选过，包含这个格，而且右端点是所有没选过的区间里最小的，那么我选择这个区间就最大程度的防止了以后的格子没得选（因为右端点选的是最小的）。
+#include<iostream>
+#include<stdio.h>
+#include<algorithm>
+
+using namespace std;
+bool jud(int *L,int *R,int *O,int n);
+int main()
+{
+    int n;
+    while(scanf("%d",&n)==1&&n)
+    {
+        int xL[5005]={0};
+        int xR[5005]={0};
+        int yL[5005]={0};
+        int yR[5005]={0};
+        int x[5005]={0};
+        int y[5005]={0};
+        int j=0;
+        //load array
+        for(int i=0;i<n;i++)
+        {
+            cin>>xL[i]>>yL[i]>>xR[i]>>yR[i];
+        }
+        //
+        if(jud(xL,xR,x,n)&&jud(yL,yR,y,n))
+            for(int i=0;i<n;i++) cout<<x[i]<<" "<<y[i]<<endl;
+        else
+            cout<<"IMPOSSIBLE"<<endl;
+    }
+}
+
+bool jud(int *L,int *R,int *O,int n)//传入指针
+{
+    fill(O,O+n,-1);
+    for(int i=1;i<=n;i++)//column
+    {
+        int rook=-1,minR=n+1;
+        for(int j=0;j<n;j++)
+            if(O[j]<0&&R[j]<minR&&L[j]<=i){minR=R[j];rook=j;}//在L大于i的情况下，找到R最小的组，达到局部最优解。
+        if(rook<0||i>minR) return false;
+        O[rook]=i;//储存某一行的选择的点。
+    }
+    return true;
+}
