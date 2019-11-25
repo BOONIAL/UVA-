@@ -1,0 +1,33 @@
+//本题的贪心思路为搬空当前处理的村庄。
+//如果值为负（甲)，搬空的理解为：将需求传到下一个村(乙），当乙村的酒到了时就把酒给甲村，需要的劳动力等价于需求。等价于把需求转化为下一个村的需求，代价则是需求对应的劳动力，本质和现实生活的处理一样。
+//依照该思路贪心得到局部最优解。不断传递到最后一个村庄。
+#include<iostream>
+#include<string>
+
+const long long MAXN=100005;
+using namespace std;
+long long n;
+int main()
+{
+    while(cin>>n&&n)
+    {
+        long long k=0;
+        long long sum=0;
+        int a[MAXN]={0};
+        for(int i=0;i<n;i++)
+        {
+            cin>>a[i];
+        }
+        for(int i=1;i<=n;i++)
+        {
+          sum+=a[i-1];
+          //cout<<sum<<endl;
+          if(sum>=0)
+            k+=sum;
+          else
+            k+=(-sum);
+        }
+        cout<<k<<endl;
+    }
+
+}
