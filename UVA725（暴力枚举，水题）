@@ -1,0 +1,57 @@
+#include<iostream>
+#include<stdio.h>
+
+using namespace std;
+int jud(int t,int p)
+{
+    int a[10]={0};
+    int flag=1;
+    int k=5;
+    int temp;
+    while(k--)
+    {
+        temp=t%10;
+        a[temp]++;
+        t/=10;
+    }
+    k=5;
+    while(k--)
+    {
+        temp=p%10;
+        a[temp]++;
+        p/=10;
+    }
+    for(int i=0;i<10;i++)
+    {
+        if(a[i]!=1)
+        {
+            flag=0;
+            break;
+        }
+    }
+    if(flag)
+        return 1;
+    else
+        return 0;
+}
+
+int main()
+{
+    int x;
+    while(cin>>x&&x)
+    {
+        int flag=0;
+        for(int m=1000;m*x<100000;m++)
+        {
+            if(jud(m,m*x))
+            {
+                printf("%05d / %05d = %d\n",m*x,m,x);
+                flag=1;
+            }
+        }
+        if(!flag)
+            cout<<"There are no solutions for "<<x<<"."<<endl;
+        cout<<endl;
+    }
+
+}
