@@ -38,8 +38,11 @@ int jud(int t,int p)
 int main()
 {
     int x;
+    int num=0;
     while(cin>>x&&x)
     {
+        if(num++)
+            cout<<"\n";
         int flag=0;
         for(int m=1000;m*x<100000;m++)
         {
@@ -51,7 +54,7 @@ int main()
         }
         if(!flag)
             cout<<"There are no solutions for "<<x<<"."<<endl;
-        cout<<endl;
+        //cout<<endl;
     }
 
 }
