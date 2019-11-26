@@ -1,0 +1,40 @@
+#include<iostream>
+#include<stdio.h>
+#include<algorithm>
+
+using namespace std;
+const int MAXN=18;
+
+int main()
+{
+    int n;
+    int cou=0;
+    while(scanf("%d",&n)!=EOF)
+    {
+        int a[MAXN]={0};
+        //
+        for(int i=0;i<n;i++)
+        {
+            cin>>a[i];
+        }
+        //枚举
+        long long maxn=-1;
+        for(int i=1;i<=n;i++)//length
+        {
+            for(int j=0;j<=n-i;j++)//begin
+            {
+                long long temp=1;
+                for(int k=j;k<i+j;k++)
+                {
+                    temp*=a[k];
+                }
+                maxn=max(temp,maxn);//比较
+            }
+        }
+        if(maxn<=0)
+            cout<<"Case #"<<++cou<<": The maximum product is 0."<<endl<<endl;
+        else
+            cout<<"Case #"<<++cou<<": The maximum product is "<<maxn<<"."<<endl<<endl;
+    }
+
+}
