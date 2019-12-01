@@ -1,0 +1,43 @@
+#include<iostream>
+#include<stdio.h>
+#include<sstream>
+
+using namespace std;
+long long turn_num(string c)
+{
+    long long sum_1=0,sum_2=0;
+    if(c[20]=='1'||c[20]=='2')
+        sum_2=(24*3600)*(c[20]-'0')+3600*((c[9]-'0')*10+c[10]-'0')+60*((c[12]-'0')*10+c[13]-'0')+((c[15]-'0')*10+c[16]-'0');
+    else
+        sum_2=3600*((c[9]-'0')*10+c[10]-'0')+60*((c[12]-'0')*10+c[13]-'0')+((c[15]-'0')*10+c[16]-'0');
+    sum_1=3600*((c[0]-'0')*10+c[1]-'0')+60*((c[3]-'0')*10+c[4]-'0')+((c[6]-'0')*10+c[7]-'0');
+    c[20]='\0';//坑的一批，如果不初始化，c[20]等于上次使用的值。
+    return (sum_2-sum_1);
+}
+void turn_time(long long ave)
+{
+    int h,m,s;
+    h=ave/3600;
+    m=(ave%3600)/60;
+    s=(ave%3600)%60;
+    printf("%02d:%02d:%02d\n",h,m,s);
+}
+int main()
+{
+    int t;
+    cin>>t;
+    getchar();
+    while(t--)
+    {
+        string as(22,'\0');//同上解释，字符串变量真香
+        string bs(22,'\0');
+        getline(cin,as);
+        getline(cin,bs);
+        //cout<<"as[20]: "<<as[20]<<endl;
+        //cout<<"bs[20]: "<<bs[20]<<endl;
+        long long ave_time;
+        //cout<<(turn_num(as)+turn_num(bs))/2<<endl;
+        ave_time=(turn_num(as)+turn_num(bs))/2;
+        turn_time(ave_time);
+    }
+}
