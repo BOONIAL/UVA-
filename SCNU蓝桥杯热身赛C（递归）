@@ -1,0 +1,27 @@
+//设f(x)为做完x道题之前，可能的情况。在做完第x道前，可能在做第1道，第2道...第x-1道。
+//f(x)=f(x-1)+f(x-2)+...+f(1)
+//f(x-1)=f(x-2)+f(x-3)+...+f(1);易得：f(1)=1.
+//综上得递推公式f(x)=2f(x-1);
+//x>1时，f(x)=2f(x-1)=2^2f(x-2)=...=2^(n-1)f(1)
+#include<iostream>
+
+using namespace std;
+long long pow(unsigned long long goal,int n)
+{
+    if(n)
+    {
+        goal*=2;
+        pow(goal,n-1);
+    }
+    else
+        return goal;
+}
+
+int main()
+{
+    int n;
+    while(cin>>n&&n)
+    {
+    cout<<pow(1,n-1)<<endl;
+    }
+}
