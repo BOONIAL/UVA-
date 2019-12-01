@@ -1,0 +1,57 @@
+//模拟，x,y分开解决。
+#include<iostream>
+#include<algorithm>
+
+using namespace std;
+int main()
+{
+    int n;
+    cin>>n;
+    int len=n;
+    int x[len]={0};
+    int y[len]={0};
+    while(n--)
+    {
+        cin>>x[n]>>y[n];
+    }
+    sort(x,x+len);
+    sort(y,y+len);
+    //for miny step
+    int mid;//中位数的性质：减去各元素所得的和最小，与需求吻合。
+    long long miny=0;
+    long long temp_1=0;
+    if(len%2)
+        mid=y[len/2];
+    else
+        mid=(y[len/2-1]+y[len/2])/2;
+    for(int j=0;j<len;j++)
+    {
+        if(y[j]-mid>=0)
+            temp_1+=y[j]-mid;
+        else
+            temp_1+=mid-y[j];
+    }
+    miny=temp_1;
+    //for minx step： 对x数组排序后，对x[i]求以x[i]为第i个数的差为1的等差数列，求出变化最小的。
+    long long minx=1000000000;//设为1亿，太小了会WA
+    for(int i=0;i<len;i++)
+    {
+        long long temp=0;
+        long long tem[100000]={0};
+        for(int k=0;k<len;k++)
+        {
+            tem[k]=x[i]-i+k;
+        }
+        //
+        for(int j=0;j<len;j++)
+        {
+            if(x[j]-tem[j]>=0)
+                temp+=x[j]-tem[j];
+            else
+                temp+=tem[j]-x[j];
+        }
+        minx=min(temp,minx);
+    }
+    //
+    cout<<minx+miny;
+}
