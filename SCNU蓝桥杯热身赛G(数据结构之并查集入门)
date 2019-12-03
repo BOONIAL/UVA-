@@ -1,0 +1,79 @@
+//https://www.cnblogs.com/xzxl/p/7226557.html（容易理解的解释）
+#include<iostream>
+#include<set>
+
+using namespace std;
+const int MAXN=100000;
+int pre[MAXN]={0};//pre[i]=j表示i的上级是j
+int ran[MAXN]={0};//巨坑，越界了没注意。。。
+int init(int n)//初始化函数
+{
+    for(int i=0;i<n;i++){
+        pre[i]=i;
+        ran[i]=1;
+    }
+}
+//
+int find_pre(int x)//找树的根
+{
+    if(pre[x]==x){
+        return x;
+    }
+    return pre[x]=find_pre(pre[x]);
+}
+//
+bool same(int x,int y)//判断根是否相同（根:最高上司）
+{
+    return find_pre(x)==find_pre(y);
+}
+//
+void unite(int x,int y)//找上级，路径压缩使树尽量只有两层
+{
+    int rootx,rooty;
+    rootx=find_pre(x);
+    rooty=find_pre(y);
+    /*if(rootx==rooty){
+        return ;
+    }*/
+    //路径压缩，使处理的树直接对接根
+    if(ran[rootx]>ran[rooty]){
+        pre[rooty]=rootx;
+    }
+    else{
+        if(ran[rootx]==ran[rooty]){
+            ran[rooty]++;
+        }
+        pre[rootx]=rooty;
+    }
+}
+//
+int main()
+{
+    int m,n,a,b;
+    cin>>n>>m;
+    init(n);
+    for(int i=0;i<m;i++)
+    {
+        cin>>a>>b;
+        if(same(a-1,b-1)==false)
+            unite(a-1,b-1);
+    }
+    for(int i=0;i<n;i++)//让未直接对应根的树对应根
+    {
+        if(i!=pre[i])
+        {
+            int temp;
+            temp=find_pre(i);
+            pre[i]=temp;
+        }
+    }
+    set<int>se;//集合的性质
+    for(int i=0;i<n;i++)
+    {
+        se.insert(pre[i]);
+    }
+    long long times,len;
+    len=se.size();
+    times=len*(len-1)/2;
+    cout<<len<<" "<<times;
+}
