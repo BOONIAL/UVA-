@@ -31,7 +31,7 @@ int main()
     {
         string as(22,'\0');//同上解释，字符串变量真香
         string bs(22,'\0');
-        getline(cin,as);
+        getline(cin,as);换行未结束标志
         getline(cin,bs);
         //cout<<"as[20]: "<<as[20]<<endl;
         //cout<<"bs[20]: "<<bs[20]<<endl;
